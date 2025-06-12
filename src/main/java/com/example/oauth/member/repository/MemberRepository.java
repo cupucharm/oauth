@@ -11,7 +11,7 @@ import java.util.Optional;
  * fileName       : MemberRepository
  * author         : choisujin
  * date           : 2025. 6. 5.
- * description    :
+ * description    : Member Repository
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

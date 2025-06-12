@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * fileName       : MemberCreateDto
  * author         : choisujin
  * date           : 2025. 6. 9.
- * description    :
+ * description    : 로그인 DTO
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

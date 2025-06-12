@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * fileName       : SecurityConfig
  * author         : choisujin
  * date           : 2025. 6. 9.
- * description    :
+ * description    : SecurityConfig 암호화
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

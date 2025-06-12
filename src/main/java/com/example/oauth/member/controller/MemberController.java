@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * fileName       : MemberController
  * author         : choisujin
  * date           : 2025. 6. 6.
- * description    :
+ * description    : Member Controller
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

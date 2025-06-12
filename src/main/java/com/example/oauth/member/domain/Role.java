@@ -5,7 +5,7 @@ package com.example.oauth.member.domain;
  * fileName       : Role
  * author         : choisujin
  * date           : 2025. 6. 5.
- * description    :
+ * description    : Role Enum
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

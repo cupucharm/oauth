@@ -15,7 +15,7 @@ import java.util.Optional;
  * fileName       : MemberService
  * author         : choisujin
  * date           : 2025. 6. 5.
- * description    :
+ * description    : Member Service
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

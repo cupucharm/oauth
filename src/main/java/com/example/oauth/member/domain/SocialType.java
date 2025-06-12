@@ -5,7 +5,7 @@ package com.example.oauth.member.domain;
  * fileName       : SocialType
  * author         : choisujin
  * date           : 2025. 6. 5.
- * description    :
+ * description    : SocialType Enum
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------

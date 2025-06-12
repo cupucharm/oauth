@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * fileName       : Member
  * author         : choisujin
  * date           : 2025. 6. 5.
- * description    :
+ * description    : Member
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
