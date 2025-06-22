@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+
     private final MemberService memberService;
 
     public MemberController(MemberService memberService) {
