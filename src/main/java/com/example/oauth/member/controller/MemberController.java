@@ -40,7 +40,7 @@ public class MemberController {
 
     @PostMapping("/doLogin")
     public ResponseEntity<?> doLogin(@RequestBody MemberLoginDto memberLoginDto) {
-//        email, password 일치한지 검증
+//        email, password 일치한지 검증하기
         Member member = memberService.login(memberLoginDto);
 
 //        일치할 경우 jwt accesstoken 생성
