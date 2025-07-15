@@ -11,6 +11,6 @@ package com.example.oauth.common.auth;
  * -----------------------------------------------------------
  * 2025. 6. 9.        choisujin       최초 생성
  */
-public class JwtTokenFilter {
+public class JwtTokenFilter{
 
 }
