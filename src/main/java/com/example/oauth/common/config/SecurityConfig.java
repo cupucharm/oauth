@@ -36,8 +36,6 @@ public class SecurityConfig {
         // 시큐리티 설정
         return httpSecurity
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // 같은 도메인끼리만 api를 통해서 데이터를 주고 받겠다는 설정.
-
-
                 .build();
     }
 
