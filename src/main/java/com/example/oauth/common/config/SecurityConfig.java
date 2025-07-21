@@ -42,6 +42,11 @@ public class SecurityConfig {
                 // Basic 인증 비활성화
                 // Basic 인증은 사용자이름과 비밀번호를 Base64로 인코딩하여 인증값으로 활용 -- 암호화가 아님, 인코딩임
                 .httpBasic(AbstractHttpConfigurer::disable)
+                // 세션 방식 비활성화
+                // 로그인 방식 - 1. 세션 방식 2. 토큰 방식
+                // 1. 세션 방식 - 로그인 인증 값을 서버에서 메모리 값으로 가지고 있음
+                // 2. 토큰 방식 - 서버에 별도로 저장하지 않음
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 
