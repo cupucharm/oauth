@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -37,7 +38,10 @@ public class SecurityConfig {
         // 시큐리티 설정
         return httpSecurity
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // 같은 도메인끼리만 api를 통해서 데이터를 주고 받겠다는 설정.
-                .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화
+                .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화 -- 보안 공격 중 하나 mvc 패턴
+                // Basic 인증 비활성화
+                // Basic 인증은 사용자이름과 비밀번호를 Base64로 인코딩하여 인증값으로 활용 -- 암호화가 아님, 인코딩임
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .build();
     }
 
