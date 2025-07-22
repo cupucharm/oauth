@@ -47,6 +47,9 @@ public class SecurityConfig {
                 // 1. 세션 방식 - 로그인 인증 값을 서버에서 메모리 값으로 가지고 있음
                 // 2. 토큰 방식 - 서버에 별도로 저장하지 않음
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 특정 url 패턴에 대해서는 인증 처리(Authentication 객체 생성) 제외
+                // 아래 url 제외하고 토큰 필터할 것
+                .authorizeHttpRequests(a->a.requestMatchers("/member/create", "/member/doLogin"))
                 .build();
     }
 
