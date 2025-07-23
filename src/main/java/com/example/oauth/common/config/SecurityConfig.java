@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 특정 url 패턴에 대해서는 인증 처리(Authentication 객체 생성) 제외
                 // 아래 url 제외하고 토큰 필터할 것
-                .authorizeHttpRequests(a->a.requestMatchers("/member/create", "/member/doLogin"))
+                .authorizeHttpRequests(a->a.requestMatchers("/member/create", "/member/doLogin").permitAll().anyRequest().authenticated())
                 .build();
     }
 
