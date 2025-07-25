@@ -1,8 +1,11 @@
 package com.example.oauth.common.auth;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +25,9 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends GenericFilter {
 
+    @Value("${jwt.secret}")
+    private String secretKey;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // servletRequest 사용자의 모든 요청 값이 담겨있음
@@ -33,7 +39,17 @@ public class JwtTokenFilter extends GenericFilter {
             if(!token.substring(0, 7).equals("Bearer ")) {
                 throw new AuthenticationServiceException("Bearer 형식이 아닙니다.");
             }
+
+            String jwtToken = token.substring(7);
+            // token 검증 및 claims(payload) 추출
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(jwtToken)   // 검증 후
+                    .getBody();                 // Claims 꺼냄
         }
+
+        // Authentication 객체 생성
 
 
         // servletRequest 객체 안에서 토큰 꺼내기
