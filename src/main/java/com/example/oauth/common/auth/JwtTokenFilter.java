@@ -6,6 +6,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Component;
 
@@ -35,27 +36,36 @@ public class JwtTokenFilter extends GenericFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         String token = httpServletRequest.getHeader("Authorization");
-        if (token != null) {
-            if(!token.substring(0, 7).equals("Bearer ")) {
-                throw new AuthenticationServiceException("Bearer 형식이 아닙니다.");
+
+        try {
+            if (token != null) {
+                if(!token.substring(0, 7).equals("Bearer ")) {
+                    throw new AuthenticationServiceException("Bearer 형식이 아닙니다.");
+                }
+
+                String jwtToken = token.substring(7);
+                // token 검증 및 claims(payload) 추출
+                Claims claims = Jwts.parserBuilder()
+                        .setSigningKey(secretKey)
+                        .build()
+                        .parseClaimsJws(jwtToken)   // 검증 후
+                        .getBody();                 // Claims 꺼냄
             }
 
-            String jwtToken = token.substring(7);
-            // token 검증 및 claims(payload) 추출
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(secretKey)
-                    .build()
-                    .parseClaimsJws(jwtToken)   // 검증 후
-                    .getBody();                 // Claims 꺼냄
+            // Authentication 객체 생성
+
+
+            // servletRequest 객체 안에서 토큰 꺼내기
+
+
+            // 다시 체인으로 돌아가라
+            filterChain.doFilter(servletRequest, servletResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.getWriter().write("invalid token");
         }
 
-        // Authentication 객체 생성
-
-
-        // servletRequest 객체 안에서 토큰 꺼내기
-
-
-        // 다시 체인으로 돌아가라
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
