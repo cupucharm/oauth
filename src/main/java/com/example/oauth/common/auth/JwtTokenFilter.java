@@ -11,6 +11,8 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -53,11 +55,18 @@ public class JwtTokenFilter extends GenericFilter {
                         .build()
                         .parseClaimsJws(jwtToken)   // 검증 후
                         .getBody();                 // Claims 꺼냄
-            }
 
-            // Authentication 객체 생성
-            Authentication authentication = new UsernamePasswordAuthenticationToken();
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Authentication 객체 생성
+                UserDetails userDetails = new User(claims.getSubject(), "", 권한);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                // 로그인 하는 순간 authentication 객체가 만들어지고, 그걸 프로젝트 전체에서 쉽게 꺼내다가 가져다 쓸 수 있음.
+                // 사용 예시
+                SecurityContextHolder.getContext().getAuthentication().getName(); // claims.getSubject() 꺼냄 // email
+                SecurityContextHolder.getContext().getAuthentication().getCredentials(); // jwtToken 꺼냄
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities(); // userDetails.getAuthorities() 권한 꺼냄
+            }
 
             // servletRequest 객체 안에서 토큰 꺼내기
 
