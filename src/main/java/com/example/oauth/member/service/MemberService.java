@@ -4,6 +4,7 @@ import com.example.oauth.member.domain.Member;
 import com.example.oauth.member.dto.MemberCreateDto;
 import com.example.oauth.member.dto.MemberLoginDto;
 import com.example.oauth.member.repository.MemberRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,8 @@ public class MemberService {
             throw new IllegalArgumentException("password가 일치하지 않습니다.");
         }
 
+        // 예시) 어떤 코드 레벨에서든 authentication 객체를 쉽게 꺼낼 수 있음
+        SecurityContextHolder.getContext().getAuthentication().getName();
         return member;
     }
 }
