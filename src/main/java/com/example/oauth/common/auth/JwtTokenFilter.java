@@ -10,12 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * packageName    : com.example.oauth.common.auth
@@ -57,15 +61,17 @@ public class JwtTokenFilter extends GenericFilter {
                         .getBody();                 // Claims 꺼냄
 
                 // Authentication 객체 생성
-                UserDetails userDetails = new User(claims.getSubject(), "", 권한);
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
+                UserDetails userDetails = new User(claims.getSubject(), "", authorities);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 // 로그인 하는 순간 authentication 객체가 만들어지고, 그걸 프로젝트 전체에서 쉽게 꺼내다가 가져다 쓸 수 있음.
                 // 사용 예시
-                SecurityContextHolder.getContext().getAuthentication().getName(); // claims.getSubject() 꺼냄 // email
-                SecurityContextHolder.getContext().getAuthentication().getCredentials(); // jwtToken 꺼냄
-                SecurityContextHolder.getContext().getAuthentication().getAuthorities(); // userDetails.getAuthorities() 권한 꺼냄
+//                SecurityContextHolder.getContext().getAuthentication().getName(); // claims.getSubject() 꺼냄 // email
+//                SecurityContextHolder.getContext().getAuthentication().getCredentials(); // jwtToken 꺼냄
+//                SecurityContextHolder.getContext().getAuthentication().getAuthorities(); // userDetails.getAuthorities() 권한 꺼냄
             }
 
             // servletRequest 객체 안에서 토큰 꺼내기
