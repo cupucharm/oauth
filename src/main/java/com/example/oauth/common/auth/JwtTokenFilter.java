@@ -62,6 +62,7 @@ public class JwtTokenFilter extends GenericFilter {
 
                 // Authentication 객체 생성
                 List<GrantedAuthority> authorities = new ArrayList<>();
+                // ROLE_ 관례이기도 하고 실질적으로 필요하기도 함
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
                 UserDetails userDetails = new User(claims.getSubject(), "", authorities);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());

@@ -1,5 +1,6 @@
 package com.example.oauth.common.config;
 
+import com.example.oauth.common.auth.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,6 +29,12 @@ import java.util.Arrays;
  */
 @Configuration
 public class SecurityConfig {
+
+    private final JwtTokenFilter jwtTokenFilter;
+
+    public SecurityConfig(JwtTokenFilter jwtTokenFilter) {
+        this.jwtTokenFilter = jwtTokenFilter;
+    }
 
     @Bean
     public PasswordEncoder makePassword() {
@@ -50,6 +58,9 @@ public class SecurityConfig {
                 // 특정 url 패턴에 대해서는 인증 처리(Authentication 객체 생성) 제외
                 // 아래 url 제외하고 토큰 필터할 것
                 .authorizeHttpRequests(a->a.requestMatchers("/member/create", "/member/doLogin").permitAll().anyRequest().authenticated())
+                // UsernamePasswordAuthenticationFilter 이거 동작 전에 jwtTokenFilter에서 검증하겠다.
+                // UsernamePasswordAuthenticationFilter 이 클래스에서 폼 로그인 인증을 처리한다.
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
